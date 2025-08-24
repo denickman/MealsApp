@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mealapp/screens/categories.dart';
 import 'package:mealapp/screens/meals.dart';
+import 'package:mealapp/models/meal.dart';
 
 class TabsScreen extends StatefulWidget {
   const TabsScreen({super.key});
@@ -13,6 +14,14 @@ class TabsScreen extends StatefulWidget {
 
 class _TabsScreenState extends State<TabsScreen> {
   int _selectedPageIndex = 0;
+  final List<Meal> _favoriteMeals = [];
+
+  void _showInfoMessage(String message) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
+  }
 
   void _selectPage(int index) {
     setState(() {
@@ -20,14 +29,32 @@ class _TabsScreenState extends State<TabsScreen> {
     });
   }
 
+  void _toggleMealFavoriteStatus(Meal meal) {
+    final isExisting = _favoriteMeals.contains(meal);
+    setState(() {
+      if (isExisting) {
+        _favoriteMeals.remove(meal);
+        _showInfoMessage("Meal is no longer a favorite.");
+      } else {
+        _favoriteMeals.add(meal);
+        _showInfoMessage("Mared as a favorite!");
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    Widget activePage = CategoriesScreen(
+      onToggleFavorite: _toggleMealFavoriteStatus,
+    );
 
-    Widget activePage = const CategoriesScreen();
     var activePageTitle = 'Categories';
 
     if (_selectedPageIndex == 1) {
-      activePage = MealsScreen(title: "Favorites", meals: []);
+      activePage = MealsScreen(
+        meals: _favoriteMeals,
+        onToggleFavorite: _toggleMealFavoriteStatus,
+      );
       activePageTitle = 'Your Favorites';
     }
 
@@ -36,7 +63,7 @@ class _TabsScreenState extends State<TabsScreen> {
       body: activePage,
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectPage,
-        currentIndex: _selectedPageIndex,  // for highlighting current page 
+        currentIndex: _selectedPageIndex, // for highlighting current page
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.set_meal),
