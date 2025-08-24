@@ -30,6 +30,13 @@ class _TabsScreenState extends State<TabsScreen> {
     });
   }
 
+  void _setScreen(String identifier) {
+    if (identifier == 'filters') {
+    } else {
+      Navigator.of(context).pop();
+    }
+  }
+
   void _toggleMealFavoriteStatus(Meal meal) {
     final isExisting = _favoriteMeals.contains(meal);
     setState(() {
@@ -59,11 +66,11 @@ class _TabsScreenState extends State<TabsScreen> {
       activePageTitle = 'Your Favorites';
     }
 
+// Scaffold открывает Drawer как "overlay" (поверх текущего экрана).
+// Это не push в Navigator стек, а именно открытие боковой панели (как модальное окно сбоку).
     return Scaffold(
-      appBar: AppBar(
-        title: Text(activePageTitle)
-        ),
-        drawer: const MainDrawer(),
+      appBar: AppBar(title: Text(activePageTitle)),
+      drawer: MainDrawer(onSelectScreen: _setScreen),
       body: activePage,
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectPage,
