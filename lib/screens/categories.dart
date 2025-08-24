@@ -23,14 +23,14 @@ class CategoriesScreen extends StatelessWidget {
       - Для более сложных навигаций часто используют GoRouter или auto_route.
     */
 
-
-
-    final filteredMeals = dummyMeals.where((meal) => meal.categories.contains(category.id)).toList();
-
+    final filteredMeals = dummyMeals
+        .where((meal) => meal.categories.contains(category.id))
+        .toList();
 
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (ctx) => MealsScreen(title: category.title, meals: filteredMeals),
+        builder: (ctx) =>
+            MealsScreen(title: category.title, meals: filteredMeals),
       ),
     );
   }
@@ -48,14 +48,14 @@ class CategoriesScreen extends StatelessWidget {
           mainAxisSpacing: 20,
         ),
         children: [
-          
           // availableCategories.map((category) => CategoryGridItem(category: category)).toList();
           for (final category in availableCategories)
             CategoryGridItem(
-              category: category, 
+              category: category,
               onSelectCategory: () {
                 _selectCategory(context, category);
-            })
+              },
+            ),
         ],
       ),
     );
