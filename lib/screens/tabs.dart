@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mealapp/screens/categories.dart';
+import 'package:mealapp/screens/filters.dart';
 import 'package:mealapp/screens/meals.dart';
 import 'package:mealapp/models/meal.dart';
 import 'package:mealapp/widgets/main_drawer.dart';
@@ -31,9 +32,18 @@ class _TabsScreenState extends State<TabsScreen> {
   }
 
   void _setScreen(String identifier) {
-    if (identifier == 'filters') {
-    } else {
-      Navigator.of(context).pop();
+    Navigator.of(context).pop();
+
+    // if (identifier == 'filters') {
+    //   Navigator.of(
+    //     context,
+    //   ).push(MaterialPageRoute(builder: (ctx) => const FiltersScreen()));
+    // }
+
+     if (identifier == 'filters') {
+      Navigator.of(
+        context,
+      ).push(MaterialPageRoute(builder: (ctx) => const FiltersScreen()));
     }
   }
 
@@ -66,8 +76,8 @@ class _TabsScreenState extends State<TabsScreen> {
       activePageTitle = 'Your Favorites';
     }
 
-// Scaffold открывает Drawer как "overlay" (поверх текущего экрана).
-// Это не push в Navigator стек, а именно открытие боковой панели (как модальное окно сбоку).
+    // Scaffold открывает Drawer как "overlay" (поверх текущего экрана).
+    // Это не push в Navigator стек, а именно открытие боковой панели (как модальное окно сбоку).
     return Scaffold(
       appBar: AppBar(title: Text(activePageTitle)),
       drawer: MainDrawer(onSelectScreen: _setScreen),
