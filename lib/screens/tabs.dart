@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mealapp/screens/categories.dart';
 import 'package:mealapp/screens/meals.dart';
 import 'package:mealapp/models/meal.dart';
+import 'package:mealapp/widgets/main_drawer.dart';
 
 class TabsScreen extends StatefulWidget {
   const TabsScreen({super.key});
@@ -37,7 +38,7 @@ class _TabsScreenState extends State<TabsScreen> {
         _showInfoMessage("Meal is no longer a favorite.");
       } else {
         _favoriteMeals.add(meal);
-        _showInfoMessage("Mared as a favorite!");
+        _showInfoMessage("Marked as a favorite!");
       }
     });
   }
@@ -59,7 +60,10 @@ class _TabsScreenState extends State<TabsScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text(activePageTitle)),
+      appBar: AppBar(
+        title: Text(activePageTitle)
+        ),
+        drawer: const MainDrawer(),
       body: activePage,
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectPage,
