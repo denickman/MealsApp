@@ -31,19 +31,21 @@ class _TabsScreenState extends State<TabsScreen> {
     });
   }
 
-  void _setScreen(String identifier) {
+  void _setScreen(String identifier) async {
     Navigator.of(context).pop();
 
-    // if (identifier == 'filters') {
-    //   Navigator.of(
-    //     context,
-    //   ).push(MaterialPageRoute(builder: (ctx) => const FiltersScreen()));
-    // }
-
      if (identifier == 'filters') {
-      Navigator.of(
-        context,
-      ).push(MaterialPageRoute(builder: (ctx) => const FiltersScreen()));
+      // сначала пушим а потом уже получим результат обратно если выберут фильтр
+      // Navigator.push возвращает Future, который завершится, когда экран будет закрыт.
+      // Если пользователь выйдет «назад» сразу (ничего не тронет), Map всё равно вернётся, 
+      // только с дефолтными значениями false (потому что у тебя переменные по умолчанию false).
+     final result = await Navigator.of(context,).push<Map<Filter, bool>>(
+      MaterialPageRoute(builder: (ctx) => const FiltersScreen()
+      ),
+      );
+
+
+
     }
   }
 
