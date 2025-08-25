@@ -5,7 +5,6 @@ import 'package:mealapp/screens/categories.dart';
 import 'package:mealapp/screens/filters.dart';
 import 'package:mealapp/screens/meals.dart';
 import 'package:mealapp/widgets/main_drawer.dart';
-import 'package:mealapp/providers/meals_provider.dart';
 import 'package:mealapp/providers/favorites_provider.dart';
 import 'package:mealapp/providers/filters_provider.dart';
 
@@ -52,25 +51,10 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
 
     // ref.watch в Riverpod — это способ подписаться на провайдер и автоматически обновлять UI, 
     // когда данные провайдера меняются.
-    final meals = ref.watch(mealsProvider);
-    final activeFilters = ref.watch(filtersProvider);
+    // final meals = ref.watch(mealsProvider);
+    // final activeFilters = ref.watch(filtersProvider);
 
-    final availableMeals = meals.where((meal) {
-      // Если фильтр включён, но блюдо не соответствует этому фильтру — выкидываем его
-      if (activeFilters[Filter.glutenFree]! && !meal.isGlutenFree) {
-        return false;
-      }
-      if (activeFilters[Filter.lactoseFree]! && !meal.isLactoseFree) {
-        return false;
-      }
-      if (activeFilters[Filter.vegetarian]! && !meal.isVegetarian) {
-        return false;
-      }
-      if (activeFilters[Filter.vegan]! && !meal.isVegan) {
-        return false;
-      }
-      return true;
-    }).toList();
+    final availableMeals = ref.watch(filteredMealsProvider);
 
     Widget activePage = CategoriesScreen(
       availableMeals: availableMeals,
